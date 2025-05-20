@@ -20,7 +20,6 @@ Tools that are going to be introduced include:
 The workshop is designed to be 'hands on', and to provide participants with examples and templates that they later can build on.
 
 Each session is going to contain an introductory briefing (10min), a short presentation (40min), followed by a longer hands-on session (2:30h):
-\vspace*{-.5em}
 
 **Tentative Daily Schedule**
 
