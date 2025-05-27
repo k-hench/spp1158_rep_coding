@@ -1,0 +1,15 @@
+"""
+snakemake -n 
+snakemake -c 1
+"""
+
+# snakemake default target rule
+rule all:
+  message:
+    '''
+    Hello. I am the default tartget of snakemake.
+    '''
+
+# import rules managed in external scripts
+# (for a clearer organization of the workflow)
+include: "rules/clustering.smk"
