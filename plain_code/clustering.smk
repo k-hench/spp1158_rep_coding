@@ -1,24 +1,10 @@
 """
 snakemake -n step1
-snakemake -c 1 completion
+snakemake -c 1 step1
 """
-# --- setting up snakemake varioables ---
-# different expected number of clusters
-# dependent on fractal-level
-n_clusters = [ 6, 36, 216, 1296 ]
-
 # --- definging "target rules" ---
 rule step1:
    input: "../data/cluster_buster.tsv"
-
-rule step2:
-   input: expand("../results/kmeans/cluster_{nclust}.tsv", nclust = n_clusters)
-
-rule step3:
-   input: expand("../results/summary/kmeans_{nclust}.tsv", nclust = n_clusters)
-
-rule completion:
-    input: "../results/img/cluster_summary.pdf"
 
 # --- defining "worker rules"  ---
 rule create_data:
@@ -29,39 +15,4 @@ rule create_data:
     '''
     Rscript --vanilla R/cluster_buster.R
     '''
-
-rule run_clustering:
-    input:
-      tsv = "../data/cluster_buster.tsv"
-    output:
-      tsv = "../results/kmeans/cluster_{nclust}.tsv"
-    shell:
-      """
-      python py/clustering.py \
-        -n {wildcards.nclust} \
-        -i {input.tsv} -o {output.tsv}
-      """
-
-rule cluster_stats:
-  input:
-    tsv = "../results/kmeans/cluster_{nclust}.tsv"
-  output:
-     tsv = "../results/summary/kmeans_{nclust}.tsv",
-     pdf = "../results/img/assigned_{nclust}_clusters.pdf",
-     rds = "../results/img/R/assigned_{nclust}_clusters.Rds"
-  shell:
-    '''
-    Rscript --vanilla R/summarise_clusters.R {wildcards.nclust}
-    '''
-
-rule final_summary:
-  input:
-    tsvs = expand("../results/summary/kmeans_{nclust}.tsv", nclust = n_clusters)
-  output:
-    pdf = "../results/img/cluster_summary.pdf"
-  params:
-     nclusts = n_clusters
-  shell:
-    """
-    Rscript --vanilla R/meta_summary.R "{params.nclusts}"
-    """
+ 
