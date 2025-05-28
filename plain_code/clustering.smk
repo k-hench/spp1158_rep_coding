@@ -1,6 +1,6 @@
 """
 snakemake -n step1
-snakemake -c 1 step3
+snakemake -c 1 completion
 """
 # --- setting up snakemake varioables ---
 # different expected number of clusters
@@ -16,6 +16,9 @@ rule step2:
 
 rule step3:
    input: expand("../results/summary/kmeans_{nclust}.tsv", nclust = n_clusters)
+
+rule completion:
+    input: "../results/img/cluster_summary.pdf"
 
 # --- defining "worker rules"  ---
 rule create_data:
@@ -50,3 +53,15 @@ rule cluster_stats:
     '''
     Rscript --vanilla R/summarise_clusters.R {wildcards.nclust}
     '''
+
+rule final_summary:
+  input:
+    tsvs = expand("../results/summary/kmeans_{nclust}.tsv", nclust = n_clusters)
+  output:
+    pdf = "../results/img/cluster_summary.pdf"
+  params:
+     nclusts = n_clusters
+  shell:
+    """
+    Rscript --vanilla R/meta_summary.R "{params.nclusts}"
+    """
