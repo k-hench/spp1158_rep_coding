@@ -1,0 +1,8 @@
+# conda env create -f yolo.yml
+name: yolo
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - r-base
