@@ -1,0 +1,60 @@
+"""
+snakemake -n
+snakemake -c 1 --use-conda --use-singularity --singularity-args "--bind $HOME/environment_demo"
+"""
+
+rule all:
+    input:
+        r3 = "../results/img/plot_r3.png",
+        r4 = "../results/img/plot_r4.png",
+        py2 = "../results/py2.log",
+        py3 = "../results/py3.log",
+        dummy = "../results/dummy_test.txt"
+
+rule run_r3:
+    output:
+        png = "../results/img/plot_r3.png"
+    conda: "envs/r3_tidy.yml"
+    shell:
+        """
+        Rscript R/script3.R
+        """
+
+rule run_r4:
+    output:
+        png = "../results/img/plot_r4.png"
+    conda: "envs/r4_tidy.yml"
+    shell:
+        """
+        Rscript R/script4.R
+        """
+
+rule run_py2:
+    output:
+        pylog = "../results/py2.log"
+    conda: "envs/py2_base.yml"
+    shell:
+        """
+        python py/demo2.py 5 > {output.pylog}
+        """
+
+rule run_py3:
+    output:
+        pylog = "../results/py3.log"
+    conda: "envs/py3_base.yml"
+    shell:
+        """
+        python py/demo3.py 5 > {output.pylog}
+        """
+rule container_check:
+    input:
+        tsv = "../data/penguins.tsv"
+    output:
+        txt = "../results/dummy_test.txt",
+        intermediate = temp("tmp.txt")
+    container: "docker://khench/dummy_script:v0.2"
+    shell:
+        """
+        head {input.tsv} > tmp.txt
+        dummy_script tmp.txt > {output.txt}
+        """

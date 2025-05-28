@@ -1,0 +1,13 @@
+# mamba env create -f py2_base.yml
+name: py2_base
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - conda-forge::python=2.7.15
+ - conda-forge::numpy 
+ - conda-forge::scipy 
+ - conda-forge::pandas 
+ - conda-forge::matplotlib
+ - conda-forge::seaborn 

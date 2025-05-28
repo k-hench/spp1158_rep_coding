@@ -1,0 +1,13 @@
+# conda env create -f py3_base.yml
+name: py3_base
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - conda-forge::python=3.13.3
+ - conda-forge::numpy 
+ - conda-forge::scipy 
+ - conda-forge::pandas 
+ - conda-forge::matplotlib
+ - conda-forge::seaborn 

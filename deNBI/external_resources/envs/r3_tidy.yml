@@ -1,0 +1,11 @@
+# conda env create -f r3_tidy.yml
+name: r3_tidy
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - openssl
+ - libgdal
+ - conda-forge::r-base=3.6.2
+ - conda-forge::r-tidyverse

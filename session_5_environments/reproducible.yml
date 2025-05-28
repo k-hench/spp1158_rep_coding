@@ -1,0 +1,8 @@
+# conda env create -f reproducible.yml
+name: reproducible
+dependencies:
+  - conda-forge::python=3.13.3
+  - conda-forge::r-base=4.4.3
+  - conda-forge::pip=25.0.1
+  - pip:
+      - simplejson==3.17.0
